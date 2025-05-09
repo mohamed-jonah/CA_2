@@ -112,3 +112,91 @@ public static void main(String[] args) {
         while (i < left.size()) result.set(k++, left.get(i++));
         while (j < right.size()) result.set(k++, right.get(j++));
     }
+    private static void searchEmployee() {
+    System.out.print("Enter name to search: ");
+    String searchName = scanner.nextLine().trim().toLowerCase();
+    boolean found = false;
+    
+    try {
+        List<String> lines = readFileLines();
+        if (lines.size() > 1) {
+            List<String> dataLines = lines.subList(1, lines.size());
+            mergeSort(dataLines);
+            
+            int index = binarySearch(dataLines, searchName);
+            if (index != -1) {
+                System.out.println("\nSearch results:");
+                System.out.println(lines.get(0));
+                System.out.println(dataLines.get(index));
+                found = true;
+                
+                // Check previous entries for additional matches
+                for (int i = index - 1; i >= 0; i--) {
+                    String currentName = (dataLines.get(i).split(",")[0] + " " + 
+                                        dataLines.get(i).split(",")[1]).toLowerCase();
+                    if (currentName.contains(searchName)) {
+                        System.out.println(dataLines.get(i));
+                    } else {
+                        break;
+                    }
+                }
+                
+                // Check next entries for additional matches
+                for (int i = index + 1; i < dataLines.size(); i++) {
+                    String currentName = (dataLines.get(i).split(",")[0] + " " + 
+                                        dataLines.get(i).split(",")[1]).toLowerCase();
+                    if (currentName.contains(searchName)) {
+                        System.out.println(dataLines.get(i));
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+    } catch (FileNotFoundException e) {
+        System.out.println("Error reading file: " + e.getMessage());
+    }
+    
+    // Search in-memory employees
+    if (!employees.isEmpty()) {
+        for (Employee e : employees) {
+            if (e.getName().toLowerCase().contains(searchName)) {
+                if (!found) {
+                    System.out.println("\nIn-Memory Matches:");
+                    found = true;
+                }
+                System.out.print(e.getName() + " | " + e.getDepartment());
+                if (e instanceof Manager) {
+                    System.out.print(" | " + ((Manager)e).getType());
+                }
+                System.out.println();
+            }
+        }
+    }
+    
+    if (!found) {
+        System.out.println("No matches found for: " + searchName);
+    }
+}
+
+private static int binarySearch(List<String> list, String searchName) {
+    int low = 0;
+    int high = list.size() - 1;
+    
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        String[] parts = list.get(mid).split(",");
+        if (parts.length < 2) continue;
+        
+        String currentName = (parts[0] + " " + parts[1]).toLowerCase();
+        
+        if (currentName.contains(searchName)) {
+            return mid;
+        } else if (currentName.compareTo(searchName) < 0) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
