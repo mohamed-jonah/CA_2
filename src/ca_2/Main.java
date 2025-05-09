@@ -64,3 +64,51 @@ public static void main(String[] args) {
             System.out.println("Warning: Could not load employee data");
         }
     }
+ private static void sortEmployees() {
+        try {
+            List<String> lines = readFileLines();
+            if (lines.size() <= 1) {
+                System.out.println("No data found in file");
+                return;
+            }
+            
+            List<String> dataLines = lines.subList(1, lines.size());
+            mergeSort(dataLines);
+            
+            System.out.println("\nSorted Employees (First 20):");
+            System.out.println(lines.get(0));
+            for (int i = 0; i < Math.min(20, dataLines.size()); i++) {
+                System.out.println(dataLines.get(i));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: File not found");
+        }
+    }
+
+    private static void mergeSort(List<String> list) {
+        if (list.size() <= 1) return;
+        
+        int mid = list.size() / 2;
+        List<String> left = new ArrayList<>(list.subList(0, mid));
+        List<String> right = new ArrayList<>(list.subList(mid, list.size()));
+        
+        mergeSort(left);
+        mergeSort(right);
+        
+        merge(list, left, right);
+    }
+
+    private static void merge(List<String> result, List<String> left, List<String> right) {
+        int i = 0, j = 0, k = 0;
+        
+        while (i < left.size() && j < right.size()) {
+            if (left.get(i).compareToIgnoreCase(right.get(j)) <= 0) {
+                result.set(k++, left.get(i++));
+            } else {
+                result.set(k++, right.get(j++));
+            }
+        }
+        
+        while (i < left.size()) result.set(k++, left.get(i++));
+        while (j < right.size()) result.set(k++, right.get(j++));
+    }
