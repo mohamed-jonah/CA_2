@@ -263,3 +263,27 @@ private static int binarySearch(List<String> list, String searchName) {
         int typeChoice = getIntInput(1, types.length);
         return types[typeChoice-1];
     }
+    private static void generateEmployee() {
+        String[] firstNames = {"Ken", "James", "Mike", "Sonya", "David", "Jessica"};
+        String[] lastNames = {"Winter", "Anderson", "Williams", "Taylor", "Jones", "Lee"};
+        
+        String name = firstNames[random.nextInt(firstNames.length)] + " " + 
+                     lastNames[random.nextInt(lastNames.length)];
+        
+        Manager.ManagerType type = Manager.ManagerType.values()[random.nextInt(3)];
+        Department.DeptName dept = Department.DeptName.values()[random.nextInt(3)];
+        
+        Manager newEmp = new Manager(name, dept.toString(), type);
+        employees.add(newEmp);
+        System.out.printf("\nGenerated: %s as %s in %s department\n", name, type, dept);
+    }
+
+    private static List<String> readFileLines() throws FileNotFoundException {
+        List<String> lines = new ArrayList<>();
+        try (Scanner fileScanner = new Scanner(new File(FILE_PATH))) {
+            while (fileScanner.hasNextLine()) {
+                lines.add(fileScanner.nextLine());
+            }
+        }
+        return lines;
+    }
