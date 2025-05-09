@@ -9,5 +9,21 @@ package ca_2;
  * @author Gerant
  */
 public class Department {
-    
+
+    public enum DeptName {
+        CUSTOMER_SERVICE("Customer Service"),
+        TECHNICAL_SUPPORT("Technical Support"),
+        HR("HR");
+
+        private final String displayName;
+
+        DeptName(String displayName) {
+            this.displayName = displayName;
+        }
+
+        @Override
+        public String toString() {
+            return displayName;
+        }
+    }
 }
