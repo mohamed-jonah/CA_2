@@ -130,7 +130,7 @@ public static void main(String[] args) {
                 System.out.println(dataLines.get(index));
                 found = true;
                 
-                // Check previous entries for additional matches
+                
                 for (int i = index - 1; i >= 0; i--) {
                     String currentName = (dataLines.get(i).split(",")[0] + " " + 
                                         dataLines.get(i).split(",")[1]).toLowerCase();
@@ -141,7 +141,7 @@ public static void main(String[] args) {
                     }
                 }
                 
-                // Check next entries for additional matches
+                
                 for (int i = index + 1; i < dataLines.size(); i++) {
                     String currentName = (dataLines.get(i).split(",")[0] + " " + 
                                         dataLines.get(i).split(",")[1]).toLowerCase();
@@ -157,7 +157,7 @@ public static void main(String[] args) {
         System.out.println("Error reading file: " + e.getMessage());
     }
     
-    // Search in-memory employees
+    
     if (!employees.isEmpty()) {
         for (Employee e : employees) {
             if (e.getName().toLowerCase().contains(searchName)) {
