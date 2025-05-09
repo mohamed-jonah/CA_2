@@ -39,3 +39,28 @@ public static void main(String[] args) {
         }
         System.out.print("Select option: ");
     }
+ private static void loadEmployees() {
+        try {
+            List<String> lines = readFileLines();
+            if (lines.size() <= 1) return;
+            
+            for (int i = 1; i < lines.size(); i++) {
+                String line = lines.get(i);
+                String[] parts = line.split(",");
+                if (parts.length >= 8) {
+                    String name = parts[0].trim() + " " + parts[1].trim();
+                    String department = parts[5].trim();
+                    String position = parts[7].trim();
+                    
+                    try {
+                        Manager.ManagerType type = Manager.ManagerType.valueOf(position);
+                        employees.add(new Manager(name, department, type));
+                    } catch (IllegalArgumentException e) {
+                        employees.add(new Employee(name, department));
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Warning: Could not load employee data");
+        }
+    }
