@@ -8,6 +8,24 @@ package ca_2;
  *
  * @author Gerant
  */
-public class Manager {
-    
+public class Manager extends Employee {
+
+    public enum ManagerType {
+        HEAD, ASSISTANT, TEAM_LEAD
+    }
+    private final ManagerType type;
+
+    public Manager(String name, String department, ManagerType type) {
+        super(name, department);
+        this.type = type;
+    }
+
+    public ManagerType getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Manager Type: " + type;
+    }
 }
