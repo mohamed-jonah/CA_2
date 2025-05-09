@@ -10,5 +10,8 @@ import java.util.*;
  * @author Gerant
  */
 public class Main {
-    
-}
+    private static List<Employee> employees = new ArrayList<>();
+    private static final String FILE_PATH = "Applicants_Form.txt";
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Random random = new Random();
+
