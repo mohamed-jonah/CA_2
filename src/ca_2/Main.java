@@ -200,3 +200,66 @@ private static int binarySearch(List<String> list, String searchName) {
     }
     return -1;
 }
+      private static void addEmployee() {
+        try {
+            System.out.print("Enter first name: ");
+            String firstName = getValidNameInput();
+            
+            System.out.print("Enter last name: ");
+            String lastName = getValidNameInput();
+
+            Department.DeptName department = selectDepartment();
+            Manager.ManagerType type = selectManagerType();
+
+            String csvLine = String.join(",",
+                firstName, lastName, "", "", "", department.toString(), "", 
+                type.toString(), ""
+            );
+
+            try (PrintWriter out = new PrintWriter(new FileWriter(FILE_PATH, true))) {
+                out.println(csvLine);
+            }
+
+            employees.add(new Manager(
+                firstName + " " + lastName,
+                department.toString(),
+                type
+            ));
+
+            System.out.printf("\n%s %s has been added as %s to %s successfully!\n",
+                firstName, lastName, type, department);
+
+        } catch (IOException e) {
+            System.out.println("Error saving employee: " + e.getMessage());
+        }
+    }
+
+    private static String getValidNameInput() {
+        while (true) {
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty() && input.matches("[a-zA-Z]+")) {
+                return input;
+            }
+            System.out.print("Invalid input. Please enter letters only: ");
+        }
+    }
+
+    private static Department.DeptName selectDepartment() {
+        System.out.println("Select department:");
+        Department.DeptName[] departments = Department.DeptName.values();
+        for (int i = 0; i < departments.length; i++) {
+            System.out.println((i+1) + ". " + departments[i]);
+        }
+        int deptChoice = getIntInput(1, departments.length);
+        return departments[deptChoice-1];
+    }
+
+    private static Manager.ManagerType selectManagerType() {
+        System.out.println("Select manager type:");
+        Manager.ManagerType[] types = Manager.ManagerType.values();
+        for (int i = 0; i < types.length; i++) {
+            System.out.println((i+1) + ". " + types[i]);
+        }
+        int typeChoice = getIntInput(1, types.length);
+        return types[typeChoice-1];
+    }
