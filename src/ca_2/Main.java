@@ -287,3 +287,18 @@ private static int binarySearch(List<String> list, String searchName) {
         }
         return lines;
     }
+    private static int getIntInput(int min, int max) {
+        while (true) {
+            try {
+                System.out.print("Enter choice (" + min + "-" + max + "): ");
+                int input = scanner.nextInt();
+                scanner.nextLine();
+                if (input >= min && input <= max) return input;
+                System.out.println("Invalid choice. Try again.");
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a number.");
+                scanner.nextLine();
+            }
+        }
+    }
+}
